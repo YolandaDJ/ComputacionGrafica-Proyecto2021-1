@@ -76,6 +76,9 @@ giroLlantas = 0.0f,
 movAuto_xAux = 0.0f,
 movAuto_zAux = 0.0f,
 
+movCampana = 0.0f,
+
+
 movCopo_x = 0.0f,
 movCopo_z = 0.0f,
 orientaCopo = 0.0f,
@@ -90,8 +93,10 @@ recorrido4 = false,
 recorrido1Copo = true,
 recorrido2Copo = false,
 recorrido3Copo = false,
-recorrido4Copo = false;
-
+recorrido4Copo = false,
+derecha = false,
+izquierda=false,
+campana = false;
 
 //Keyframes (Manipulación y dibujo)
 float	posX = 0.0f,
@@ -393,6 +398,26 @@ void animate(void)
 		}
 	}
 
+	if (campana)
+	{
+		if (derecha)
+		{
+			izquierda = false;
+			if (movCampana > -45.0f)
+				movCampana -= 8.0f;
+			else
+				izquierda = true;
+		}
+		if (izquierda)
+		{
+			derecha = false;
+			if (movCampana < 45.0f)
+				movCampana += 8.0f;
+			else
+				derecha = true;
+		}
+	}
+
 	//Vehículo
 	if (animacion)
 	{
@@ -544,7 +569,7 @@ int main()
 	Model torsoDino("resources/objects/dino/cuerpo.obj");
 	Model pieDerDinD("resources/objects/dino/pataDerD.obj");
 	Model pieIzqDinD("resources/objects/dino/pataIzqD.obj");
-	Model pieIzqDinT("resources/objects/dino/pataIzqT.obj");
+	Model pieIzqDinT("resources/objects/dino/pataChida.obj");
 	Model pieDerDinT("resources/objects/dino/pataDerT.obj");
 
 	//Model torPP2("resources/objects/dino/torPruebaP2.obj");
@@ -552,8 +577,10 @@ int main()
 	Model cuerpo("resources/objects/personaje2/cuerpo.obj");
 	Model manoDer("resources/objects/personaje2/manoDer.obj");
 	Model manoIzq("resources/objects/personaje2/manoIzq.obj");
-
+	Model snowman("resources/objects/hombreNieve/muNieve.obj");
+	Model campana("resources/objects/campana/campana.obj");
 	Model casita("resources/objects/casaCom/casitaCompleta.obj");
+	//Model copo("resources/objects/copo/copo.obj");
 	/*Model casaNuevo("resources/objects/casaNuevo/casaNuevo.obj");
 	Model arbolN("resources/objects/arbolNormal/arbolNor.obj");
 	Model cama("resources/objects/cama/cama.obj");
@@ -567,7 +594,7 @@ int main()
 	Model sala("resources/objects/sillonCom/sillonCom.obj");
 	Model tele("resources/objects/teleCom/tvI.obj");
 	Model librero("resources/objects/libreroSala/librero.obj");
-	Model campana("resources/objects/campana/campana.obj");
+	
 	//Model esfera3("resources/objects/esferaRec/esfera3.obj");//-->ARREGLAR EL MODELO
 	Model sofaEst("resources/objects/sofaEstudi/sofaEstudio.obj");
 	Model lavadora("resources/objects/lavadora/lava.obj");
@@ -620,30 +647,31 @@ int main()
 	*/
 	
 	//***********DINO	
-		KeyFrame[0].posX = -15;
-		KeyFrame[0].rotRodIzq = 10;
-		KeyFrame[0].rotRodDer = -10;
-		KeyFrame[0].movBrazoIzq = 10;
-		KeyFrame[0].movBrazoDer = -10;
+	
+		KeyFrame[0].posX = 20;
+		KeyFrame[0].rotRodIzq = -15;
+		KeyFrame[0].rotRodDer = 15;
+		KeyFrame[0].movBrazoIzq = 15;
+		KeyFrame[0].movBrazoDer = -15;
 		
-		KeyFrame[1].posX = -20;
-		KeyFrame[1].rotRodIzq = -10;
-		KeyFrame[1].rotRodDer = 10;
-		KeyFrame[1].movBrazoIzq = 10;
-		KeyFrame[1].movBrazoDer = -10;
+		KeyFrame[1].posX = 30;
+		KeyFrame[1].rotRodIzq = 15;
+		KeyFrame[1].rotRodDer = -15;
+		KeyFrame[1].movBrazoIzq = 15;
+		KeyFrame[1].movBrazoDer = -15;
 		
-		KeyFrame[2].posX = -25;
-		KeyFrame[2].rotRodIzq = 10;
-		KeyFrame[2].rotRodDer = -10;
-		KeyFrame[2].movBrazoIzq = 10;
-		KeyFrame[2].movBrazoDer = -10;
+		KeyFrame[2].posX = 40;
+		KeyFrame[2].rotRodIzq = -15;
+		KeyFrame[2].rotRodDer = 15;
+		KeyFrame[2].movBrazoIzq = 15;
+		KeyFrame[2].movBrazoDer = -15;
 		
-		KeyFrame[3].posX = -30;
-		KeyFrame[3].rotRodIzq = -10;
-		KeyFrame[3].rotRodDer = 10;
+		KeyFrame[3].posX = 50;
+		KeyFrame[3].rotRodIzq = 15;
+		KeyFrame[3].rotRodDer = -15;
 		KeyFrame[3].movBrazoIzq = 10;
 		KeyFrame[3].movBrazoDer = -10;
-
+		
 	//***********HOBRE MANOS TIJERAS
 		KeyFrame[4].posZ_monito = 15;
 		KeyFrame[4].movBrazoIzq_monito = 110;
@@ -1371,7 +1399,7 @@ int main()
 		// ************************************************************************************************************************
 		// Personaje
 		// *************************************************************************************************************************
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(100, 15, 300));
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(100, 30, 300));
 		model = glm::translate(model, glm::vec3(posX, posY, posZ));
 		model = glm::scale(model, glm::vec3(0.5f));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1397,20 +1425,17 @@ int main()
 	
 		//Brazo derecho
 		model = glm::translate(tmp, glm::vec3(0.0f, -1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(-0.75f, 2.5f, 0));
+		//model = glm::translate(model, glm::vec3(-0.75f, 2.5f, 0));
 		model = glm::rotate(model, glm::radians(movBrazoDer), glm::vec3(1.0f, 0.0f, 0.0f));
-		staticShader.setMat4("model", model);
-		pieIzqDinT.Draw(staticShader);
-
-		//Brazo izquierdo
-		model = glm::translate(tmp, glm::vec3(0.0f, -1.0f, 0.0f));
-		model = glm::translate(model, glm::vec3(0.75f, 2.5f, 0));
-		model = glm::rotate(model, glm::radians(movBrazoIzq), glm::vec3(1.0f, 0.0f, 0.0f));
 		staticShader.setMat4("model", model);
 		pieDerDinT.Draw(staticShader);
 
-
-
+		//Brazo izquierdo
+		model = glm::translate(tmp, glm::vec3(2.0f, -1.0f, 0.0f));
+		//model = glm::translate(model, glm::vec3(0.75f, 2.5f, 0));
+		model = glm::rotate(model, glm::radians(movBrazoIzq), glm::vec3(1.0f, 0.0f, 0.0f));
+		staticShader.setMat4("model", model);
+		pieIzqDinT.Draw(staticShader);
 
 		model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 67.0f, -50.0f));
 		model = glm::scale(model, glm::vec3(65.0f));
@@ -1421,6 +1446,14 @@ int main()
 		model = glm::scale(model, glm::vec3(19.0f));
 		staticShader.setMat4("model", model);
 		arbolito.Draw(staticShader);
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(50.0f, 150.0f, 190.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.1f));
+		model = glm::rotate(model, glm::radians(movCampana), glm::vec3(1.0f, 0.0f, 0.0f));
+		staticShader.setMat4("model", model);
+		campana.Draw(staticShader);
+
 
 		/*
 		
@@ -1439,8 +1472,10 @@ int main()
 		pieIzqPer2.Draw(staticShader);
 */
 		//***************PER 2
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(30, 50, 0));
+
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 120, 300));
 		model = glm::translate(model, glm::vec3(posX_monito, posY_monito, posZ_monito));
+		model = glm::scale(model, glm::vec3(1.5f));
 		tmp2 = model = glm::rotate(model, glm::radians(giroMonito_monito), glm::vec3(0.0f, 1.0f, 0.0));
 		staticShader.setMat4("model", model);
 		cuerpo.Draw(staticShader);
@@ -1467,16 +1502,17 @@ int main()
 		cabezaPer2.Draw(staticShader);
 */
 		///*************************KIM
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 100, 400));
+		/*
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 500, 400));
 		model = glm::translate(model, glm::vec3(posX_kim, posY_kim, posZ_kim));
 		model = glm::scale(model, glm::vec3(0.1f));
-		tmp3 = model = glm::rotate(model, glm::radians(giroMonito), glm::vec3(0.0f, 1.0f, 0.0));
+		tmp3 = model = glm::rotate(model, glm::radians(giroMonito_kim), glm::vec3(0.0f, 1.0f, 0.0));
 		staticShader.setMat4("model", model);
 		cuerpoKim.Draw(staticShader);
 
 		//Pierna Der
 		model = glm::translate(tmp3, glm::vec3(-0.5f, 0.0f, -0.1f));
-		model = glm::scale(model, glm::vec3(0.1f));
+		//model = glm::scale(model, glm::vec3(0.1f));
 		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0));
 		model = glm::rotate(model, glm::radians(-rotRodIzq_kim), glm::vec3(1.0f, 0.0f, 0.0f));
 		staticShader.setMat4("model", model);
@@ -1484,21 +1520,22 @@ int main()
 
 		//Pierna Izq
 		model = glm::translate(tmp3, glm::vec3(0.5f, 0.0f, -0.1f));
-		model = glm::scale(model, glm::vec3(0.1f));
+		//model = glm::scale(model, glm::vec3(0.1f));
 		model = glm::rotate(model, glm::radians(-rotRodDer_kim), glm::vec3(1.0f, 0.0f, 0.0f));
 		staticShader.setMat4("model", model);
 		piernaIzqKim.Draw(staticShader);
 
 		//Pie Iz
-		model = glm::translate(model, glm::vec3(0, -0.9f, -0.2f));
-		model = glm::scale(model, glm::vec3(0.1f));
+		model = glm::translate(tmp3, glm::vec3(0.5f, 0.0f, -0.1f));
+		//model = glm::translate(model, glm::vec3(0, -0.9f, -0.2f));
+		//model = glm::scale(model, glm::vec3(0.1f));
 		staticShader.setMat4("model", model);
 		pieDerKim.Draw(staticShader);	//Izq trase
 
 		//Brazo derecho
 		model = glm::translate(tmp3, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(-0.75f, 2.5f, 0));
-		model = glm::scale(model, glm::vec3(0.1f));
+		//model = glm::scale(model, glm::vec3(0.1f));
 		model = glm::rotate(model, glm::radians(movBrazoDer_kim), glm::vec3(1.0f, 0.0f, 0.0f));
 		staticShader.setMat4("model", model);
 		brazoDerKim.Draw(staticShader);
@@ -1506,7 +1543,7 @@ int main()
 		//Brazo izquierdo
 		model = glm::translate(tmp3, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::translate(model, glm::vec3(0.75f, 2.5f, 0));
-		model = glm::scale(model, glm::vec3(0.1f));
+		//model = glm::scale(model, glm::vec3(0.1f));
 		model = glm::rotate(model, glm::radians(movBrazoIzq_kim), glm::vec3(1.0f, 0.0f, 0.0f));
 		staticShader.setMat4("model", model);
 		brazoIzqKim.Draw(staticShader);
@@ -1514,11 +1551,16 @@ int main()
 		//Cabeza
 		model = glm::translate(tmp3, glm::vec3(0.0f, -1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(rotCabeza_kim), glm::vec3(0.0f, 1.0f, 0.0));
-		model = glm::scale(model, glm::vec3(0.1f));
+		//model = glm::scale(model, glm::vec3(0.1f));
 		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0));
 		staticShader.setMat4("model", model);
 		cabezaKim.Draw(staticShader);
-		
+	*/
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(380.0f, 0.0f, 230.0f));
+		//model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f));
+		staticShader.setMat4("model", model);
+		snowman.Draw(staticShader);
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Termina Escenario
 		// -------------------------------------------------------------------------------------------------------------------------
@@ -1612,6 +1654,12 @@ void my_input(GLFWwindow *window, int key, int scancode, int action, int mode)
 	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
 	{
 		escribir();
+	}
+	if (glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
+	{
+		derecha = true;
+		campana = !campana;
+		movCampana = 0.0f;
 	}
 		
 
